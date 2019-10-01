@@ -1,0 +1,96 @@
+{
+  "name": "sample",
+  "version": "0.0.1",
+  "description": "My Smart Contract",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "pretest": "npm run lint",
+    "test": "nyc mocha -r ts-node/register src/tests/unit/**/*.spec.ts",
+    "integration": "nyc mocha -r ts-node/register src/tests/integration/**/*.spec.ts",
+    "start": "fabric-chaincode-node start",
+    "build": "tsc",
+    "build:watch": "tsc -w",
+    "prepublishOnly": "npm run build"
+  },
+  "engineStrict": true,
+  "author": "Andras L Ferenczi <andras.l.ferenczi@aexp.com> (https://github.com/andrasfe)",
+  "contributors": [
+    "Tajamul Fazili <TAJAMUL.FAZILI@aexp.com> (https://github.com/tajamulfazili)"
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "fabric-contract-api": "1.4.2",
+    "fabric-shim": "1.4.2",
+    "glob": "^7.1.4",
+    "husky": "^3.0.5",
+    "yup": "^0.27.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/chai-as-promised": "^7.1.0",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.12.10",
+    "@types/sinon": "^5.0.7",
+    "@types/sinon-chai": "^3.2.1",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "fabric-network": "^1.4.4",
+    "mocha": "^5.2.0",
+    "nyc": "^14.0.0",
+    "sinon": "^7.1.1",
+    "sinon-chai": "^3.3.0",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.6",
+    "winston": "^3.2.1"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts",
+      "src/**/*.tsx"
+    ],
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text",
+      "html"
+    ],
+    "exclude": [
+      "docs",
+      "coverage",
+      "src/tests/*",
+      "dist",
+      "config",
+      "gulpfile.js",
+      "src/main/index.ts"
+    ],
+    "per-file": true,
+    "lines": 100,
+    "statements": 100,
+    "functions": 100,
+    "branches": 100,
+    "check-coverage": true,
+    "all": true,
+    "sourceMap": true,
+    "instrument": true
+  },
+  "engines": {
+    "node": "^8.9",
+    "npm": "^5.6"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint",
+      "pre-push": "yarn lint && yarn test",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "preparecommitmsg": "git-hooks/prepare-commit-msg ${GIT_PARAMS}"
+    }
+  }
+}
